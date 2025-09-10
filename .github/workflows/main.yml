@@ -17,7 +17,8 @@ jobs:
           script: |
             rm -rf ./demo30
             git clone https://github.com/ddarahakit2025/demo30
-            chmod 755 ./demo30/gradlew
-            ./demo30/gradlew bootJar
-            docker build --tag ddarahakit2025/back:latest ./demo30
+            cd ./demo30
+            chmod 755 ./gradlew
+            ./gradlew bootJar
+            docker build --tag ddarahakit2025/back:latest .
             
