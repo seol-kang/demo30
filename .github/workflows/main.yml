@@ -15,4 +15,8 @@ jobs:
           password: qwer1234
           port: 22
           script: |
-            echo test > /tmp/test
+            git clone https://github.com/ddarahakit2025/demo30
+            chmod 755 ./demo30/gradlew
+            ./demo30/gradlew bootJar
+            docker build --tag ddarahakit2025/back:latest ./demo30/Dockerfile
+            
