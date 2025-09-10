@@ -47,9 +47,8 @@ jobs:
           password: qwer1234
           port: 22
           script: |
-            docker rm -f back
-            docker image rm -f ddarahakit2025/back:latest
-            docker build --tag ddarahakit2025/back:latest .
-            docker run -d --name back -p 8080:8080 ddarahakit2025/back:latest
+            docker pull ddarahakit2025/back:latest || true
+            docker rm -f back 2>/dev/null || true
+            docker run -d --name back -p 8080:8080 --pull=always ddarahakit2025/back:latest
 
 
