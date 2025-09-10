@@ -48,7 +48,7 @@ jobs:
           port: 22
           script: |
             docker rm -f back
-            docker image prune -f
+            docker image rm -f ddarahakit2025/back:latest
             docker build --tag ddarahakit2025/back:latest .
             docker run -d --name back -p 8080:8080 ddarahakit2025/back:latest
 
