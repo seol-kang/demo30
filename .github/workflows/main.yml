@@ -73,8 +73,8 @@ jobs:
                 sleep 5
             done
 
-            sed -i "s/$OLD_PORT/$NEW_PORT/g" /etc/nginx/sites-enabled/default
-            nginx -s reload
+            sudo sed -i "s/$OLD_PORT/$NEW_PORT/g" /etc/nginx/sites-enabled/default
+            sudo nginx -s reload
 
             docker rm -f back-$OLD_PORT 2>/dev/null || true
 
