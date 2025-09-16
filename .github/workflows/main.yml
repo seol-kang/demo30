@@ -52,6 +52,7 @@ jobs:
             kind: Deployment
             metadata:
               name: spring-deployment
+              namespace: sjb
             spec:
               selector:
                 matchLabels:
