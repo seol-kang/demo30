@@ -32,7 +32,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spring_basic:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spring_basic:${{ github.run_number }}
 
   deploy:
     name: deploy
