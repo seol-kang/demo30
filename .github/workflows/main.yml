@@ -100,7 +100,7 @@ jobs:
             apiVersion: v1
             kind: Service
             metadata:
-              name: nginx-svc
+              name: spring-svc
               namespace: sjb
             spec:
               selector:
