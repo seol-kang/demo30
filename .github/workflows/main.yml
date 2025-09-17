@@ -55,11 +55,12 @@ jobs:
               NEXT_VER="green"
             fi
             
-            cat <<'EOF' | kubectl apply -f -
+            cat <<EOF | kubectl apply -f -
             apiVersion: apps/v1
             kind: Deployment
             metadata:
               name: spring-deployment-${NEXT_VER}
+              namespace: sjb
             spec:
               selector:
                 matchLabels:
@@ -95,11 +96,12 @@ jobs:
 
             kubectl rollout status deployment/spring-deployment-${NEXT_VER} -n sjb
             
-            cat <<'EOF' | kubectl apply -f -
+            cat <<EOF | kubectl apply -f -
             apiVersion: v1
             kind: Service
             metadata:
               name: nginx-svc
+              namespace: sjb
             spec:
               selector:
                 type: app
