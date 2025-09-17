@@ -47,16 +47,24 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: 22
           script: |
+            if kubectl get svc spring-svc -n sjb -o wide | grep -q "green"; then
+              CURRENT_VER="green"
+              NEXT_VER="blue"
+            else
+              CURRENT_VER="blue"
+              NEXT_VER="green"
+            fi
+            
             cat <<'EOF' | kubectl apply -f -
             apiVersion: apps/v1
             kind: Deployment
             metadata:
-              name: spring-deployment
-              namespace: sjb
+              name: spring-deployment-$NEXT_VER
             spec:
               selector:
                 matchLabels:
                   type: app
+                  ver: $NEXT_VER
               replicas: 1
               strategy:
                 type: RollingUpdate
@@ -64,6 +72,7 @@ jobs:
                 metadata:
                   labels:
                     type: app
+                    ver: $NEXT_VER
                 spec:
                   containers:
                     - name: container
@@ -83,3 +92,22 @@ jobs:
                         successThreshold: 3
                   terminationGracePeriodSeconds: 0
             EOF
+
+            kubectl rollout status deployment/spring-deployment-$NEXT_VER -n sjb
+            
+            cat <<'EOF' | kubectl apply -f -
+            apiVersion: v1
+            kind: Service
+            metadata:
+              name: nginx-svc
+            spec:
+              selector:
+                type: app
+                ver: $NEXT_VER
+              ports:
+                - port: 80
+                  targetPort: 80
+              type: LoadBalancer
+            EOF
+            
+            kubectl scale deployment spring-deployment-$CURRENT_VER -n sjb --replicas=0
