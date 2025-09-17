@@ -95,7 +95,6 @@ jobs:
             EOF
 
             kubectl rollout status deployment/spring-deployment-${NEXT_VER} -n sjb
-            
             cat <<EOF | kubectl apply -f -
             apiVersion: v1
             kind: Service
@@ -107,8 +106,8 @@ jobs:
                 type: app
                 ver: ${NEXT_VER}
               ports:
-                - port: 80
-                  targetPort: 80
+                - port: 8080
+                  targetPort: 8080
               type: LoadBalancer
             EOF
             
