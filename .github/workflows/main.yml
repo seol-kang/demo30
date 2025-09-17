@@ -59,12 +59,12 @@ jobs:
             apiVersion: apps/v1
             kind: Deployment
             metadata:
-              name: spring-deployment-$NEXT_VER
+              name: spring-deployment-${NEXT_VER}
             spec:
               selector:
                 matchLabels:
                   type: app
-                  ver: $NEXT_VER
+                  ver: ${NEXT_VER}
               replicas: 1
               strategy:
                 type: RollingUpdate
@@ -72,7 +72,7 @@ jobs:
                 metadata:
                   labels:
                     type: app
-                    ver: $NEXT_VER
+                    ver: ${NEXT_VER}
                 spec:
                   containers:
                     - name: container
@@ -93,7 +93,7 @@ jobs:
                   terminationGracePeriodSeconds: 0
             EOF
 
-            kubectl rollout status deployment/spring-deployment-$NEXT_VER -n sjb
+            kubectl rollout status deployment/spring-deployment-${NEXT_VER} -n sjb
             
             cat <<'EOF' | kubectl apply -f -
             apiVersion: v1
@@ -103,11 +103,11 @@ jobs:
             spec:
               selector:
                 type: app
-                ver: $NEXT_VER
+                ver: ${NEXT_VER}
               ports:
                 - port: 80
                   targetPort: 80
               type: LoadBalancer
             EOF
             
-            kubectl scale deployment spring-deployment-$CURRENT_VER -n sjb --replicas=0
+            kubectl scale deployment spring-deployment-${CURRENT_VER} -n sjb --replicas=0
